@@ -1,7 +1,8 @@
+import 'package:firebase_auth/firebase_auth.dart';
+import 'package:firebase_core/firebase_core.dart';
 import 'package:flutter/material.dart';
 import 'package:time_tracker_app/app/sign_in/sign_in_button.dart';
 import 'package:time_tracker_app/app/sign_in/social_sign_in_button.dart';
-import 'package:time_tracker_app/common_widgets/custom_raised_button.dart';
 
 class SignInPage extends StatelessWidget {
   const SignInPage({Key? key}) : super(key: key);
@@ -70,10 +71,16 @@ class SignInPage extends StatelessWidget {
             text: 'Go anonymous',
             textColor: Colors.black,
             color: Colors.lime[300]!,
-            onPressed: () {},
+            onPressed: _signInAnonymously,
           ),
         ],
       ),
     );
+  }
+
+  // 匿名認証
+  Future<void> _signInAnonymously() async{
+    final userCredentials = await FirebaseAuth.instance.signInAnonymously();
+    print(userCredentials.user!.uid);
   }
 }
