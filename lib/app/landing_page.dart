@@ -13,7 +13,7 @@ class LandingPage extends StatefulWidget {
 class _LandingPageState extends State<LandingPage> {
   User? _user;
 
-  void _updateUser(User user) {
+  void _updateUser(User? user) {
     setState(() {
       _user = user;
     });
@@ -26,6 +26,8 @@ class _LandingPageState extends State<LandingPage> {
         onSignIn: _updateUser,
       );
     }
-    return const HomePage();
+    return HomePage(
+      onSignOut: () => _updateUser(null),
+    );
   }
 }
