@@ -7,7 +7,7 @@ class CustomRaisedButton extends StatelessWidget {
     required this.color,
     this.borderRadius = 2,
     this.height = 50,
-    required this.onPressed,
+    this.onPressed,
   })  : assert(borderRadius != null),
         super(key: key);
 
@@ -15,7 +15,7 @@ class CustomRaisedButton extends StatelessWidget {
   final Color color;
   final double borderRadius;
   final double height;
-  final VoidCallback onPressed;
+  final VoidCallback? onPressed;
 
   @override
   Widget build(BuildContext context) {
