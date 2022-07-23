@@ -30,7 +30,8 @@ class Auth implements AuthBase {
   // Googleでサインインする
   @override
   Future<void> signInWithGoogle() async {
-    final googleUser = await GoogleSignIn(scopes: ['profile', 'email']).signIn();
+    final googleUser =
+        await GoogleSignIn(scopes: ['profile', 'email']).signIn();
     final googleAuth = await googleUser?.authentication;
     final credential = GoogleAuthProvider.credential(
       accessToken: googleAuth?.accessToken,
@@ -42,6 +43,8 @@ class Auth implements AuthBase {
 
   @override
   Future<void> signOut() async {
+    final googleSignIn = GoogleSignIn();
+    await googleSignIn.signOut();
     await _firebaseAuth.signOut();
   }
 }
