@@ -1,5 +1,8 @@
+import 'dart:io';
+
 import 'package:flutter/material.dart';
 import 'package:time_tracker_app/common_widgets/form_submit_button.dart';
+import 'package:time_tracker_app/common_widgets/show_alert_dialog.dart';
 import 'package:time_tracker_app/services/auth.dart';
 
 enum EmailSignInFormType { signIn, register }
@@ -23,6 +26,7 @@ class _EmailSignInFormState extends State<EmailSignInForm> {
   final FocusNode _passwordFocusNode = FocusNode();
 
   String get _email => _emailController.text;
+
   String get _password => _passwordController.text;
   EmailSignInFormType _formType = EmailSignInFormType.signIn;
   final _formKey = GlobalKey<FormState>();
@@ -42,6 +46,13 @@ class _EmailSignInFormState extends State<EmailSignInForm> {
         await widget.auth.createUserWithEmailAndPassword(_email, _password);
       }
       Navigator.of(context).pop();
+    } catch (e) {
+      showAlertDialog(
+        context,
+        title: 'Sign in failed',
+        content: e.toString(),
+        defaultActionText: 'OK',
+      );
     } finally {
       setState(() {
         _isLoading = false;
@@ -74,7 +85,7 @@ class _EmailSignInFormState extends State<EmailSignInForm> {
     return [
       Form(
         key: _formKey,
-        child:Column(
+        child: Column(
           crossAxisAlignment: CrossAxisAlignment.stretch,
           children: [
             _buildEmailTextField(),
@@ -106,7 +117,7 @@ class _EmailSignInFormState extends State<EmailSignInForm> {
         }
         const pattern = r'^[a-zA-Z0-9!-/:-@¥[-`{-~]{8,}$';
         final regExp = RegExp(pattern);
-        if(!regExp.hasMatch(value)){
+        if (!regExp.hasMatch(value)) {
           return '8文字以上の英数字記号で入力してください';
         }
         return null;
@@ -133,7 +144,7 @@ class _EmailSignInFormState extends State<EmailSignInForm> {
         }
         String pattern = r'^[0-9a-z_./?-]+@([0-9a-z-]+\.)+[0-9a-z-]+$';
         RegExp regExp = RegExp(pattern);
-        if(!regExp.hasMatch(value)){
+        if (!regExp.hasMatch(value)) {
           return '正しいメールアドレスを入力してください';
         }
         return null;
@@ -166,4 +177,3 @@ class _EmailSignInFormState extends State<EmailSignInForm> {
     setState(() {});
   }
 }
-
