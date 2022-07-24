@@ -1,6 +1,5 @@
-import 'dart:io';
-
 import 'package:flutter/material.dart';
+import 'package:provider/provider.dart';
 import 'package:time_tracker_app/common_widgets/form_submit_button.dart';
 import 'package:time_tracker_app/common_widgets/show_alert_dialog.dart';
 import 'package:time_tracker_app/services/auth.dart';
@@ -10,10 +9,7 @@ enum EmailSignInFormType { signIn, register }
 class EmailSignInForm extends StatefulWidget {
   const EmailSignInForm({
     Key? key,
-    required this.auth,
   }) : super(key: key);
-
-  final AuthBase auth;
 
   @override
   State<EmailSignInForm> createState() => _EmailSignInFormState();
@@ -40,10 +36,11 @@ class _EmailSignInFormState extends State<EmailSignInForm> {
       _isLoading = true;
     });
     try {
+      final auth = Provider.of<AuthBase>(context, listen: false);
       if (_formType == EmailSignInFormType.signIn) {
-        await widget.auth.signInWithEmailAndPassword(_email, _password);
+        await auth.signInWithEmailAndPassword(_email, _password);
       } else {
-        await widget.auth.createUserWithEmailAndPassword(_email, _password);
+        await auth.createUserWithEmailAndPassword(_email, _password);
       }
       Navigator.of(context).pop();
     } catch (e) {
