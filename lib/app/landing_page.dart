@@ -27,7 +27,7 @@ class LandingPage extends StatelessWidget {
         if (snapshot.hasData) {
           return const HomePage();
         }
-        return const SignInPage();
+        return SignInPage.create(context);
       },
     );
   }
