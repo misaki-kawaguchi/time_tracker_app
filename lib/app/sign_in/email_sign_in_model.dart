@@ -15,6 +15,24 @@ class EmailSignInModel {
   final bool isLoading;
   final bool submitted;
 
+  String get primaryButtonText {
+    return formType == EmailSignInFormType.signIn
+        ? 'Sign in'
+        : 'Create an account';
+  }
+
+  String get secondaryButtonText {
+    return formType == EmailSignInFormType.signIn
+        ? 'Need an account? Register'
+        : 'Have an account? Sign in';
+  }
+
+  bool canSubmit(String email, String password) {
+    return email.isNotEmpty &&
+        password.isNotEmpty &&
+        !isLoading;
+  }
+
   EmailSignInModel copyWith({
     String? email,
     String? password,

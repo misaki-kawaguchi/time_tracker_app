@@ -69,17 +69,6 @@ class _EmailSignInFormBlocBasedState extends State<EmailSignInFormBlocBased> {
   }
 
   List<Widget> _buildChildren(EmailSignInModel model) {
-    final primaryText = model.formType == EmailSignInFormType.signIn
-        ? 'Sign in'
-        : 'Create an account';
-    final secondaryText = model.formType == EmailSignInFormType.signIn
-        ? 'Need an account? Register'
-        : 'Have an account? Sign in';
-
-    bool submitEnabled = _emailController.text.isNotEmpty &&
-        _passwordController.text.isNotEmpty &&
-        !model.isLoading;
-
     return [
       Form(
         key: _formKey,
@@ -91,12 +80,12 @@ class _EmailSignInFormBlocBasedState extends State<EmailSignInFormBlocBased> {
             _buildPasswordTextField(model),
             const SizedBox(height: 8.0),
             FormSubmitButton(
-              text: primaryText,
-              onPressed: submitEnabled ? _submit : null,
+              text: model.primaryButtonText,
+              onPressed: model.canSubmit(_emailController.text, _passwordController.text) ? _submit : null,
             ),
             const SizedBox(height: 8.0),
             FlatButton(
-              child: Text(secondaryText),
+              child: Text(model.secondaryButtonText),
               onPressed: !model.isLoading ? () => _toggleFormType(model) : null,
             ),
           ],
