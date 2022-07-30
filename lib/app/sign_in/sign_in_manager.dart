@@ -3,8 +3,8 @@ import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:time_tracker_app/services/auth.dart';
 
-class SignInBloc {
-  SignInBloc({
+class SignInManager {
+  SignInManager({
     required this.auth,
     required this.isLoading,
   });
