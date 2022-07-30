@@ -11,12 +11,17 @@ import 'package:time_tracker_app/services/auth.dart';
 class SignInPage extends StatelessWidget {
   const SignInPage({
     Key? key,
+    required this.bloc,
   }) : super(key: key);
+
+  final SignInBloc bloc;
 
   static Widget create(BuildContext context) {
     return Provider<SignInBloc>(
       create: (_) => SignInBloc(),
-      child: const SignInPage(),
+      child: Consumer<SignInBloc>(
+        builder: (_, bloc, __) => SignInPage(bloc: bloc),
+      ),
     );
   }
 
@@ -35,7 +40,6 @@ class SignInPage extends StatelessWidget {
   // 匿名認証
   Future<void> _signInAnonymously(BuildContext context) async {
     final auth = Provider.of<AuthBase>(context, listen: false);
-    final bloc = Provider.of<SignInBloc>(context, listen: false);
     try {
       bloc.setIsLoading(true);
       await auth.signInAnonymously();
@@ -49,7 +53,6 @@ class SignInPage extends StatelessWidget {
   // Googleサインイン
   Future<void> _signInWithGoogle(BuildContext context) async {
     final auth = Provider.of<AuthBase>(context, listen: false);
-    final bloc = Provider.of<SignInBloc>(context, listen: false);
     try {
       bloc.setIsLoading(true);
       await auth.signInWithGoogle();
@@ -71,19 +74,17 @@ class SignInPage extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    final bloc = Provider.of<SignInBloc>(context, listen: false);
     return Scaffold(
       appBar: AppBar(
         title: const Text('Time Tracker'),
         elevation: 2,
       ),
       body: StreamBuilder<bool>(
-        stream: bloc.isLoadingStream,
-        initialData: false,
-        builder: (context, snapshot) {
-          return _buildContent(context, snapshot.data!);
-        }
-      ),
+          stream: bloc.isLoadingStream,
+          initialData: false,
+          builder: (context, snapshot) {
+            return _buildContent(context, snapshot.data!);
+          }),
       backgroundColor: Colors.grey[200],
     );
   }
