@@ -12,7 +12,7 @@ abstract class AuthBase {
 
   Future<User> createUserWithEmailAndPassword(String email, String password);
 
-  Future<void> signInWithGoogle();
+  Future<User> signInWithGoogle();
 
   Future<void> signOut();
 }
@@ -54,7 +54,7 @@ class Auth implements AuthBase {
 
   // Googleでサインインする
   @override
-  Future<void> signInWithGoogle() async {
+  Future<User> signInWithGoogle() async {
     final googleUser =
         await GoogleSignIn(scopes: ['profile', 'email']).signIn();
     final googleAuth = await googleUser?.authentication;
@@ -63,7 +63,8 @@ class Auth implements AuthBase {
       idToken: googleAuth?.idToken,
     );
 
-    await FirebaseAuth.instance.signInWithCredential(credential);
+    final userCredential = await FirebaseAuth.instance.signInWithCredential(credential);
+    return userCredential.user!;
   }
 
   @override
