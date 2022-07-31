@@ -2,7 +2,6 @@ import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 import 'package:time_tracker_app/app/home/jobs/edit_job_page.dart';
-import 'package:time_tracker_app/app/home/jobs/empty_content.dart';
 import 'package:time_tracker_app/app/home/jobs/job_list_tile.dart';
 import 'package:time_tracker_app/app/home/jobs/list_items_builder.dart';
 import 'package:time_tracker_app/app/home/models/job.dart';
