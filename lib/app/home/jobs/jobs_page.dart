@@ -1,11 +1,10 @@
-import 'package:cloud_firestore/cloud_firestore.dart';
+
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
-import 'package:time_tracker_app/app/home/jobs/add_job_page.dart';
+import 'package:time_tracker_app/app/home/jobs/edit_job_page.dart';
 import 'package:time_tracker_app/app/home/jobs/job_list_tile.dart';
 import 'package:time_tracker_app/app/home/models/job.dart';
 import 'package:time_tracker_app/common_widgets/show_alert_dialog.dart';
-import 'package:time_tracker_app/common_widgets/show_exception_alert_dialog.dart';
 import 'package:time_tracker_app/services/auth.dart';
 import 'package:time_tracker_app/services/database.dart';
 
@@ -56,7 +55,7 @@ class JobsPage extends StatelessWidget {
       ),
       body: _buildContents(context),
       floatingActionButton: FloatingActionButton(
-        onPressed: () => AddJobPage.show(context),
+        onPressed: () => EditJobPage.show(context),
         child: const Icon(Icons.add),
       ),
     );
@@ -72,7 +71,7 @@ class JobsPage extends StatelessWidget {
           final children = jobs
               .map((job) => JobListTile(
                     job: job,
-                    onTap: () {},
+                    onTap: () => EditJobPage.show(context, job: job),
                   ))
               .toList();
           return ListView(
