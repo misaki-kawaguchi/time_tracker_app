@@ -26,13 +26,7 @@ class FirestoreDatabase implements Database {
     final snapshots = reference.snapshots();
     return snapshots.map(
       (snapshot) => snapshot.docs.map(
-        (snapshot) {
-          final data = snapshot.data();
-          return Job(
-            name: data['name'],
-            ratePerHour: data['ratePerHour'],
-          );
-        },
+        (snapshot) => Job.fromMap(snapshot.data()),
       ).toList(),
     );
   }
