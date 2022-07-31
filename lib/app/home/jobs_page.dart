@@ -3,8 +3,8 @@ import 'package:provider/provider.dart';
 import 'package:time_tracker_app/common_widgets/show_alert_dialog.dart';
 import 'package:time_tracker_app/services/auth.dart';
 
-class HomePage extends StatelessWidget {
-  const HomePage({
+class JobsPage extends StatelessWidget {
+  const JobsPage({
     Key? key,
   }) : super(key: key);
 
@@ -34,7 +34,7 @@ class HomePage extends StatelessWidget {
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
-        title: const Text('Home Page'),
+        title: const Text('Jobs'),
         actions: [
           FlatButton(
             onPressed: () => _confirmSignOut(context),
