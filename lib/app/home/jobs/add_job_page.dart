@@ -1,12 +1,21 @@
 import 'package:flutter/material.dart';
+import 'package:provider/provider.dart';
+import 'package:time_tracker_app/app/home/models/job.dart';
+import 'package:time_tracker_app/services/database.dart';
 
 class AddJobPage extends StatefulWidget {
-  const AddJobPage({Key? key}) : super(key: key);
+  const AddJobPage({
+    Key? key,
+    required this.database,
+  }) : super(key: key);
+
+  final Database database;
 
   static Future<void> show(BuildContext context) async {
+    final database = Provider.of<Database>(context, listen: false);
     await Navigator.of(context).push(
       MaterialPageRoute(
-        builder: (context) => const AddJobPage(),
+        builder: (context) => AddJobPage(database: database),
         fullscreenDialog: true,
       ),
     );
@@ -79,8 +88,8 @@ class _AddJobPageState extends State<AddJobPage> {
         decoration: const InputDecoration(
           labelText: 'Rate per hour',
         ),
-        keyboardType:
-            const TextInputType.numberWithOptions(signed: false, decimal: false),
+        keyboardType: const TextInputType.numberWithOptions(
+            signed: false, decimal: false),
         onSaved: (value) => _ratePerHour = int.parse(value!),
       ),
     ];
@@ -95,22 +104,12 @@ class _AddJobPageState extends State<AddJobPage> {
     return false;
   }
 
-  void _submit() {
+  Future<void> _submit() async{
     if (_validateAndSaveForm()) {
-      print('form saved, name: $_name, ratePerHour: $_ratePerHour');
+     final job = Job(name: _name!, ratePerHour: _ratePerHour!);
+     await widget.database.createJob(job);
+     Navigator.of(context).pop();
     }
   }
 }
 
-//Future<void> _createJob(BuildContext context) async {
-//     try {
-//       final database = Provider.of<Database>(context, listen: false);
-//       await database.createJob(Job(name: 'Blogging', ratePerHour: 10));
-//     } on FirebaseException catch (e) {
-//       showExceptionAlertDialog(
-//         context,
-//         title: 'Operation failed',
-//         exception: e,
-//       );
-//     }
-//   }
