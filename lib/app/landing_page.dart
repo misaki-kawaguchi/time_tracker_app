@@ -18,7 +18,6 @@ class LandingPage extends StatelessWidget {
     return StreamBuilder<User?>(
       stream: auth.authStateChanges(),
       builder: (context, snapshot) {
-        final User user = snapshot.data!;
         if (snapshot.connectionState == ConnectionState.waiting) {
           return const Scaffold(
             body: Center(
@@ -27,6 +26,7 @@ class LandingPage extends StatelessWidget {
           );
         }
         if (snapshot.hasData) {
+          final User user = snapshot.data!;
           return Provider<Database>(
             create: (_) => FirestoreDatabase(uid: user.uid),
               child: const JobsPage()
