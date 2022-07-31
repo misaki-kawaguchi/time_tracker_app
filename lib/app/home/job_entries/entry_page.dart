@@ -11,20 +11,20 @@ class EntryPage extends StatefulWidget {
   const EntryPage({
     Key? key,
     required this.database,
-    required this.job,
-    required this.entry,
+    this.job,
+    this.entry,
   }): super(key: key);
 
   final Database database;
-  final Job job;
-  final Entry entry;
+  final Job? job;
+  final Entry? entry;
 
   static Future<void> show(BuildContext context,
       {Database? database, Job? job, Entry? entry}) async {
     await Navigator.of(context).push(
       MaterialPageRoute(
         builder: (context) =>
-            EntryPage(database: database!, job: job!, entry: entry!),
+            EntryPage(database: database!, job: job, entry: entry),
         fullscreenDialog: true,
       ),
     );
@@ -44,15 +44,15 @@ class _EntryPageState extends State<EntryPage> {
   @override
   void initState() {
     super.initState();
-    final start = widget.entry.start;
+    final start = widget.entry?.start ?? DateTime.now();
     _startDate = DateTime(start.year, start.month, start.day);
     _startTime = TimeOfDay.fromDateTime(start);
 
-    final end = widget.entry.end;
+    final end = widget.entry?.end ?? DateTime.now();
     _endDate = DateTime(end.year, end.month, end.day);
     _endTime = TimeOfDay.fromDateTime(end);
 
-    _comment = widget.entry.comment;
+    _comment = widget.entry?.comment ?? '';
   }
 
   Entry _entryFromState() {
@@ -60,10 +60,10 @@ class _EntryPageState extends State<EntryPage> {
         _startTime!.hour, _startTime!.minute);
     final end = DateTime(_endDate!.year, _endDate!.month, _endDate!.day,
         _endTime!.hour, _endTime!.minute);
-    final id = widget.entry.id;
+    final id = widget.entry?.id ?? documentIdFromCurrentDate();
     return Entry(
       id: id,
-      jobId: widget.job.id,
+      jobId: widget.job!.id,
       start: start,
       end: end,
       comment: _comment!,
@@ -89,7 +89,7 @@ class _EntryPageState extends State<EntryPage> {
     return Scaffold(
       appBar: AppBar(
         elevation: 2.0,
-        title: Text(widget.job.name),
+        title: Text(widget.job!.name),
         actions: <Widget>[
           FlatButton(
             child: Text(
