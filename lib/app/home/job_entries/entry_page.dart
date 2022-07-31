@@ -44,15 +44,15 @@ class _EntryPageState extends State<EntryPage> {
   @override
   void initState() {
     super.initState();
-    final start = widget.entry?.start ?? DateTime.now();
+    final start = widget.entry.start;
     _startDate = DateTime(start.year, start.month, start.day);
     _startTime = TimeOfDay.fromDateTime(start);
 
-    final end = widget.entry?.end ?? DateTime.now();
+    final end = widget.entry.end;
     _endDate = DateTime(end.year, end.month, end.day);
     _endTime = TimeOfDay.fromDateTime(end);
 
-    _comment = widget.entry?.comment ?? '';
+    _comment = widget.entry.comment;
   }
 
   Entry _entryFromState() {
@@ -60,7 +60,7 @@ class _EntryPageState extends State<EntryPage> {
         _startTime!.hour, _startTime!.minute);
     final end = DateTime(_endDate!.year, _endDate!.month, _endDate!.day,
         _endTime!.hour, _endTime!.minute);
-    final id = widget.entry?.id ?? documentIdFromCurrentDate();
+    final id = widget.entry.id;
     return Entry(
       id: id,
       jobId: widget.job.id,
