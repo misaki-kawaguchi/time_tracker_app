@@ -4,6 +4,7 @@ import 'package:provider/provider.dart';
 import 'package:time_tracker_app/app/home/jobs_page.dart';
 import 'package:time_tracker_app/app/sign_in/sign_in_page.dart';
 import 'package:time_tracker_app/services/auth.dart';
+import 'package:time_tracker_app/services/database.dart';
 
 class LandingPage extends StatelessWidget {
   const LandingPage({
@@ -17,6 +18,7 @@ class LandingPage extends StatelessWidget {
     return StreamBuilder<User?>(
       stream: auth.authStateChanges(),
       builder: (context, snapshot) {
+        final User user = snapshot.data!;
         if (snapshot.connectionState == ConnectionState.waiting) {
           return const Scaffold(
             body: Center(
@@ -25,7 +27,10 @@ class LandingPage extends StatelessWidget {
           );
         }
         if (snapshot.hasData) {
-          return const JobsPage();
+          return Provider<Database>(
+            create: (_) => FirestoreDatabase(uid: user.uid),
+              child: const JobsPage()
+          );
         }
         return SignInPage.create(context);
       },
