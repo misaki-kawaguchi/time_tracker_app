@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
+import 'package:time_tracker_app/app/home/models/job.dart';
 import 'package:time_tracker_app/common_widgets/show_alert_dialog.dart';
 import 'package:time_tracker_app/services/auth.dart';
 import 'package:time_tracker_app/services/database.dart';
@@ -58,9 +59,6 @@ class JobsPage extends StatelessWidget {
 
   Future<void> _createJob(BuildContext context) async {
     final database = Provider.of<Database>(context, listen: false);
-    await database.createJob({
-      'name': 'Blogging',
-      'ratePerHour': 10,
-    });
+    await database.createJob(Job(name: 'Blogging', ratePerHour: 10));
   }
 }
