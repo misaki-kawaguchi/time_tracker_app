@@ -94,7 +94,7 @@ class _AddJobPageState extends State<AddJobPage> {
         ),
         keyboardType: const TextInputType.numberWithOptions(
             signed: false, decimal: false),
-        onSaved: (value) => _ratePerHour = int.parse(value!),
+        onSaved: (value) => _ratePerHour = int.tryParse(value!) ?? 0,
       ),
     ];
   }
