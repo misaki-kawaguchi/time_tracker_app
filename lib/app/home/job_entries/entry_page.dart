@@ -9,10 +9,11 @@ import 'package:time_tracker_app/services/database.dart';
 
 class EntryPage extends StatefulWidget {
   const EntryPage({
+    Key? key,
     required this.database,
     required this.job,
     required this.entry,
-  });
+  }): super(key: key);
 
   final Database database;
   final Job job;
