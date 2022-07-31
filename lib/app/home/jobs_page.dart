@@ -48,6 +48,13 @@ class JobsPage extends StatelessWidget {
           ),
         ],
       ),
+      floatingActionButton: FloatingActionButton(
+        onPressed: _createJob,
+        child: const Icon(Icons.add),
+      ),
     );
+  }
+
+  void _createJob() {
   }
 }
