@@ -6,9 +6,7 @@ import 'package:time_tracker_app/app/home/jobs/edit_job_page.dart';
 import 'package:time_tracker_app/app/home/jobs/job_list_tile.dart';
 import 'package:time_tracker_app/app/home/jobs/list_items_builder.dart';
 import 'package:time_tracker_app/app/home/models/job.dart';
-import 'package:time_tracker_app/common_widgets/show_alert_dialog.dart';
 import 'package:time_tracker_app/common_widgets/show_exception_alert_dialog.dart';
-import 'package:time_tracker_app/services/auth.dart';
 import 'package:time_tracker_app/services/database.dart';
 
 class JobsPage extends StatelessWidget {
@@ -16,54 +14,25 @@ class JobsPage extends StatelessWidget {
     Key? key,
   }) : super(key: key);
 
-  Future<void> _signOut(BuildContext context) async {
-    final auth = Provider.of<AuthBase>(context, listen: false);
-    try {
-      await auth.signOut();
-    } catch (e) {
-      print(e.toString());
-    }
-  }
-
-  Future<void> _confirmSignOut(BuildContext context) async {
-    final didRequestSignOut = await showAlertDialog(
-      context,
-      title: 'Logout',
-      content: 'Are you sure that you want to logout?',
-      cancelActionText: 'Cancel',
-      defaultActionText: 'Logout',
-    );
-    if (didRequestSignOut == true) {
-      _signOut(context);
-    }
-  }
-
   @override
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
         title: const Text('Jobs'),
         actions: [
-          FlatButton(
-            onPressed: () => _confirmSignOut(context),
-            child: const Text(
-              'Logout',
-              style: TextStyle(
-                fontSize: 18,
-                color: Colors.white,
-              ),
+          IconButton(
+            onPressed: () => EditJobPage.show(
+              context,
+              database: Provider.of<Database>(context, listen: false),
+            ),
+            icon: const Icon(
+              Icons.add,
+              color: Colors.white,
             ),
           ),
         ],
       ),
       body: _buildContents(context),
-      floatingActionButton: FloatingActionButton(
-        onPressed: () => EditJobPage.show(
-          context,
-          database: Provider.of<Database>(context, listen: false),
-        ),
-        child: const Icon(Icons.add),
-      ),
     );
   }
 
