@@ -1,6 +1,5 @@
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/material.dart';
-import 'package:provider/provider.dart';
 import 'package:time_tracker_app/app/home/models/job.dart';
 import 'package:time_tracker_app/common_widgets/show_alert_dialog.dart';
 import 'package:time_tracker_app/common_widgets/show_exception_alert_dialog.dart';
@@ -16,8 +15,9 @@ class EditJobPage extends StatefulWidget {
   final Database database;
   final Job? job;
 
-  static Future<void> show(BuildContext context, {Database? database, Job? job}) async {
-    await Navigator.of(context).push(
+  static Future<void> show(BuildContext context,
+      {Database? database, Job? job}) async {
+    await Navigator.of(context, rootNavigator: true).push(
       MaterialPageRoute(
         builder: (context) => EditJobPage(database: database!, job: job),
         fullscreenDialog: true,
@@ -83,8 +83,7 @@ class _EditJobPageState extends State<EditJobPage> {
       key: _formKey,
       child: Column(
         crossAxisAlignment: CrossAxisAlignment.stretch,
-        children:
-        _buildFormChildren(),
+        children: _buildFormChildren(),
       ),
     );
   }
@@ -103,7 +102,7 @@ class _EditJobPageState extends State<EditJobPage> {
         decoration: const InputDecoration(
           labelText: 'Rate per hour',
         ),
-        initialValue: _ratePerHour != null ?  '$_ratePerHour' : null,
+        initialValue: _ratePerHour != null ? '$_ratePerHour' : null,
         keyboardType: const TextInputType.numberWithOptions(
             signed: false, decimal: false),
         onSaved: (value) => _ratePerHour = int.tryParse(value!) ?? 0,

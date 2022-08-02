@@ -9,7 +9,7 @@ class EntryListItem extends StatelessWidget {
     required this.entry,
     required this.job,
     required this.onTap,
-  }): super(key: key);
+  }) : super(key: key);
 
   final Entry entry;
   final Job job;
@@ -47,7 +47,8 @@ class EntryListItem extends StatelessWidget {
       crossAxisAlignment: CrossAxisAlignment.start,
       children: <Widget>[
         Row(children: <Widget>[
-          Text(dayOfWeek, style: const TextStyle(fontSize: 18.0, color: Colors.grey)),
+          Text(dayOfWeek,
+              style: const TextStyle(fontSize: 18.0, color: Colors.grey)),
           const SizedBox(width: 15.0),
           Text(startDate, style: const TextStyle(fontSize: 18.0)),
           if (job.ratePerHour > 0.0) ...<Widget>[
@@ -78,12 +79,14 @@ class EntryListItem extends StatelessWidget {
 class DismissibleEntryListItem extends StatelessWidget {
   const DismissibleEntryListItem({
     Key? key,
+    required this.dismissibleKey,
     required this.entry,
     required this.job,
     required this.onDismissed,
     required this.onTap,
-  }): super(key: key);
+  }) : super(key: key);
 
+  final Key dismissibleKey;
   final Entry entry;
   final Job job;
   final VoidCallback onDismissed;
@@ -93,7 +96,7 @@ class DismissibleEntryListItem extends StatelessWidget {
   Widget build(BuildContext context) {
     return Dismissible(
       background: Container(color: Colors.red),
-      key: key!,
+      key: dismissibleKey,
       direction: DismissDirection.endToStart,
       onDismissed: (direction) => onDismissed(),
       child: EntryListItem(
